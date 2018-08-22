@@ -1,2 +1,2 @@
-# easybet-front
-Front-End da EasyBet
+# gbet-front
+Front-End da G-Bet
