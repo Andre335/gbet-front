@@ -1,2 +1,4 @@
 # gbet-front
-Front-End da G-Bet
+Front-End
+
+Use: npm start to start the UI
