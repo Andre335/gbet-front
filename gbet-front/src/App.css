@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  background-color: #eeeeee;
 }
 
 .App-logo {
@@ -16,10 +17,6 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-}
-
-.live-list-container {
-  text-align: center;
 }
 
 .App-link {
