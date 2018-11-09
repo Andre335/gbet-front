@@ -20,6 +20,8 @@ import AirplayIcon from '@material-ui/icons/Airplay';
 import CalendarIcon from '@material-ui/icons/CalendarToday';
 import ComplaintsIcon from '@material-ui/icons/Report';
 import LiveList from './LiveList';
+import history from '../util/history';
+import { Router, Route, Link } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -87,8 +89,8 @@ const styles = theme => ({
 
 class GbetSide extends Component {
 
-  constructor(props) {
-      super(props);
+  constructor() {
+      super();
       this.state = {
         open: false,
       };
@@ -150,18 +152,24 @@ class GbetSide extends Component {
             </IconButton>
           </div>
           <Divider />
-          <List>
-            {['Lives', 'Calendar', 'Complaints'].map((text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>{[text==='Lives' ? <AirplayIcon/>: "", text==='Calendar' ? <CalendarIcon/>: "", text==='Complaints' ? <ComplaintsIcon/>: ""]}</ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            ))}
-          </List>
+          <Router history={history}>
+            <List>
+              {['Lives', 'Calendar', 'Complaints'].map((text, index) => (
+                <ListItem button key={text}>
+                  <ListItemIcon>{[text==='Lives' ? <Link to="/"><AirplayIcon/></Link>: "", 
+                                  text==='Calendar' ? <Link to="/calender"><CalendarIcon/></Link>: "", 
+                                  text==='Complaints' ? <Link to="/complaints"><ComplaintsIcon/></Link>: ""]}</ListItemIcon>
+                  <ListItemText primary={text} />
+                </ListItem>
+              ))}
+            </List>
+          </Router>
         </Drawer>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-            <LiveList className="live-list" lives={this.props.lives}/>
+            <Router history={history}>
+              <Route exact path="/" component={LiveList}/>
+            </Router>
         </main>
       </div>
     );

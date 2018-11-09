@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import ListItem from '@material-ui/core/ListItem';
 import BetProgressBar from './BetProgressBar';
 import '../css/LiveList.css';
+import StarBorderIcon from '@material-ui/icons/StarBorder';
 
 class LiveItem extends Component {
     constructor(props) {
@@ -53,6 +54,9 @@ class LiveItem extends Component {
                     <CardActions>
                         <Button size="small" color="primary">
                             Bet
+                        </Button>
+                        <Button size="small" color="primary">
+                            <StarBorderIcon />
                         </Button>
                     </CardActions>
                 </Card>
