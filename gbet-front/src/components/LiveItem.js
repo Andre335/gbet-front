@@ -9,10 +9,12 @@ import ListItem from '@material-ui/core/ListItem';
 import BetProgressBar from './BetProgressBar';
 import '../css/LiveList.css';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
+import StarIcon from '@material-ui/icons/Star';
 
 class LiveItem extends Component {
     constructor(props) {
         super(props);
+        this.handleFavourite = this.handleFavourite.bind(this);
         this.getBetsInFavor = this.getBetsInFavor.bind(this);
         this.state = {
             bets_in_favor: this.getBetsInFavor(this.props.live.bets)
@@ -28,6 +30,10 @@ class LiveItem extends Component {
         }
         return count;      
     } 
+
+    handleFavourite() {
+        this.props.handleFavourite(this.props.live._id);
+    }
 
     render() {
         return(
@@ -55,8 +61,8 @@ class LiveItem extends Component {
                         <Button size="small" color="primary">
                             Bet
                         </Button>
-                        <Button size="small" color="primary">
-                            <StarBorderIcon />
+                        <Button size="small" color="primary" onClick={this.handleFavourite}>
+                            {this.props.isFavorite ? <StarIcon /> : <StarBorderIcon />}
                         </Button>
                     </CardActions>
                 </Card>
