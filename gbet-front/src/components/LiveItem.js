@@ -10,12 +10,15 @@ import BetProgressBar from './BetProgressBar';
 import '../css/LiveList.css';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import StarIcon from '@material-ui/icons/Star';
+import BetDialog from './BetDialog';
 
 class LiveItem extends Component {
     constructor(props) {
         super(props);
         this.handleFavourite = this.handleFavourite.bind(this);
         this.getBetsInFavor = this.getBetsInFavor.bind(this);
+        this.handleClickOpen = this.handleClickOpen.bind(this);
+        this.handleClose = this.handleClose.bind(this);
         this.state = {
             bets_in_favor: this.getBetsInFavor(this.props.live.bets)
         };
@@ -30,6 +33,14 @@ class LiveItem extends Component {
         }
         return count;      
     } 
+
+    handleClickOpen = () => {
+        this.setState({ dialogOpen: true });
+    };
+
+    handleClose = () => {
+        this.setState({ dialogOpen: false });
+    };
 
     handleFavourite() {
         this.props.handleFavourite(this.props.live._id);
@@ -58,9 +69,12 @@ class LiveItem extends Component {
                         </CardContent>
                     </CardActionArea>
                     <CardActions>
-                        <Button size="small" color="primary">
+                        <Button size="small" color="primary" onClick={this.handleClickOpen}>
                             Bet
                         </Button>
+                        
+                        {this.state.dialogOpen ? <BetDialog handleClose={this.handleClose}/> : ""}
+
                         <Button size="small" color="primary" onClick={this.handleFavourite}>
                             {this.props.isFavorite ? <StarIcon /> : <StarBorderIcon />}
                         </Button>
