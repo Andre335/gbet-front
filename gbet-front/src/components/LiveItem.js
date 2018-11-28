@@ -73,7 +73,8 @@ class LiveItem extends Component {
                             Bet
                         </Button>
                         
-                        {this.state.dialogOpen ? <BetDialog handleClose={this.handleClose}/> : ""}
+                        {this.state.dialogOpen ? <BetDialog handleClose={this.handleClose} live_id={this.props.live._id}
+                                                            handleBet={this.props.handleBet}/> : ""}
 
                         <Button size="small" color="primary" onClick={this.handleFavourite}>
                             {this.props.isFavorite ? <StarIcon /> : <StarBorderIcon />}

@@ -2,33 +2,60 @@ import React, { Component } from 'react';
 import LiveItem from './LiveItem';
 import '../css/LiveList.css';
 import List from '@material-ui/core/List';
+import axios from 'axios';
 
 class LiveList extends Component {
     constructor() {
         super();
         this.handleFavourite = this.handleFavourite.bind(this);
+        this.handleBet = this.handleBet.bind(this);
         this.state = {
-            lives: [{_id: 1, title: "Title 1", description: "Description 1", owner: "Owner 1", date: "23-10-2018", bets: [{in_favor: true}, {in_favor: false}]},
-                    {_id: 2, title: "Title 2", description: "Description 2", owner: "Owner 2", date: "24-10-2018", bets: [{in_favor: true}]},
-                    {_id: 3, title: "Title 3", description: "Description 3", owner: "Owner 3", date: "25-10-2018", bets: [{in_favor: false}, {in_favor: false}, {in_favor: true}, {in_favor: false}]}],
-            favourites: [1, 2]
+            lives: [],
+            favourites: []
         }
     }
 
     handleFavourite(live_id) {
-        this.setState(oldState => {
-            const newFavourites = this.state.favourites.includes(live_id) ? 
-                    oldState.favourites.filter(fav => fav !== live_id) : [...oldState.favourites, live_id];
-            return {favourites: newFavourites};
+        const newFavourites = this.state.favourites.includes(live_id) ?
+                    this.state.favourites.filter(fav => fav !== live_id) : [...this.state.favourites, live_id];
+
+        axios.put('http://localhost:3001/calendar/5bfe03c36656ac241d1774c3', {favourites: newFavourites}).then(res => {
+            this.setState({ favourites: newFavourites });
+        });
+    }
+
+    handleBet(infavor, val, live_id) {
+        const betObj = {
+            in_favor: infavor,
+            value: val,
+            live: live_id,
+            owner: "5bfddd2e9b2606180d0929aa"
+        }
+
+        axios.post('http://localhost:3001/bet', betObj).then(res => {
+            var updatedLives = [];
+            for (var i = 0; i < this.state.lives.length; i++) {
+                if (this.state.lives[i]._id === live_id) {
+                    var updatedBets = [...this.state.lives[i].bets, res.data];
+                    var updatedLive = this.state.lives[i];
+                    updatedLive.bets = updatedBets;
+                    updatedLives = [...updatedLives, updatedLive];
+                } else {
+                    updatedLives = [...updatedLives, this.state.lives[i]];
+                }
+            }
+            this.setState({ lives: updatedLives });
         });
     }
 
     componentDidMount() {
-        // this.setState({
-        //     lives: [{title: "Title 1", description: "Description 1", owner: "Owner 1", date: "23-10-2018", bets: [{in_favor: true}, {in_favor: false}]},
-        //             {title: "Title 2", description: "Description 2", owner: "Owner 2", date: "24-10-2018", bets: [{in_favor: true}]},
-        //             {title: "Title 3", description: "Description 3", owner: "Owner 3", date: "25-10-2018", bets: [{in_favor: false}, {in_favor: false}, {in_favor: true}, {in_favor: false}]}]
-        // });
+        axios.get('http://localhost:3001/live').then(res => {
+            this.setState({ lives: res.data });
+        });
+
+        axios.get('http://localhost:3001/calendar/owner/5bfddd2e9b2606180d0929aa/favourites').then(res => {
+            this.setState({ favourites: res.data });
+        });
     }
     
     render() {
@@ -36,7 +63,9 @@ class LiveList extends Component {
             <div className="live-list-container">
                 <List className="LiveList">
                     {
-                        this.state.lives.map(live => <LiveItem live={live} isFavorite={this.state.favourites.includes(live._id)} handleFavourite={this.handleFavourite}/>)
+                        this.state.lives.map(live => <LiveItem live={live} isFavorite={this.state.favourites.includes(live._id)} 
+                                                               handleFavourite={this.handleFavourite}
+                                                               handleBet={this.handleBet}/>)
                     }
                 </List>
             </div>

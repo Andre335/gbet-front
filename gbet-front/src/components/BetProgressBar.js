@@ -21,7 +21,7 @@ class BetProgressBar extends Component {
     render() {
         return(
             <div className="progress-container">
-                <Line className="progress-bar" percent={(this.props.bets_in_favor/this.props.bets_total)*100} 
+                {((this.props.bets_in_favor/this.props.bets_total)*100).toFixed(2)+"%"} <Line className="progress-bar" percent={(this.props.bets_in_favor/this.props.bets_total)*100} 
                       strokeWidth="1" strokeColor={this.handleColor((this.props.bets_in_favor/this.props.bets_total)*100)}/>
             </div>
         )

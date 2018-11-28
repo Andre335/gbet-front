@@ -12,11 +12,14 @@ class BetDialog extends React.Component {
   constructor(props) {
         super(props);
         this.handleClose = this.handleClose.bind(this);
+        this.formatNumber = this.formatNumber.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleFinish = this.handleFinish.bind(this);
+        this.handleBet = this.handleBet.bind(this);
         this.state = {
             open: true,
-            selectedValue: "infavor"
+            selectedValue: "infavor",
+            numericInputVal: 1
         }
   }
 
@@ -25,15 +28,23 @@ class BetDialog extends React.Component {
       this.props.handleClose();
   }
 
+  handleBet(infavor, value) {
+      const infavorBool = infavor === "infavor" ? true : false;
+      this.props.handleBet(infavorBool, value, this.props.live_id);
+  }
+
   handleFinish() {
-      console.log(this.state.selectedValue);
-      console.log(this.state.betVal);
       this.setState({ open: false });
+      this.handleBet(this.state.selectedValue, this.state.numericInputVal);
       this.props.handleClose();
   }
 
   handleChange(value) {
       this.setState({selectedValue: value});
+  }
+
+  formatNumber(num) {
+      return num + "R$";
   }
 
   render() {
@@ -51,7 +62,8 @@ class BetDialog extends React.Component {
               Bet value
             </DialogContentText>
 
-            <NumericInput className="form-control" min={1} val={1} precision={2}/>
+            <NumericInput className="form-control" min={1} val={1} precision={2} format={this.formatNumber}
+                          onChange={valueAsNumber => this.setState({numericInputVal: valueAsNumber})}/>
 
             <RadioGroup name="pickfavor" selectedValue={this.state.selectedValue} onChange={this.handleChange} horizontal>
                 <RadioButton value="infavor"> In favor </RadioButton>
