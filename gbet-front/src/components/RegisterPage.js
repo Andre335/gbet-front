@@ -7,10 +7,12 @@ import { RadioGroup, RadioButton } from 'react-radio-buttons';
 import Button from '@material-ui/core/Button';
 import { Router, Link } from 'react-router-dom';
 import history from '../util/history.js';
+import ObjectId from 'bson-objectid';
 
 class RegisterPage extends Component {
     constructor() {
         super();
+        this.handleDateChange = this.handleDateChange.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleRegister = this.handleRegister.bind(this);
         this.handleRoleChange = this.handleRoleChange.bind(this);
@@ -20,12 +22,43 @@ class RegisterPage extends Component {
             email: "",
             password: "",
             passconf: "",
-            role: ""
+            role: "",
+            dob: new Date()
         }
     }
 
+    handleDateChange = name => event => {
+        const newDate = new Date(event.target.value);
+        this.setState({
+            [name]: newDate,
+        })
+    }
+
     handleRegister() {
-        console.log(this.state.role);
+        const userID = new ObjectId();
+        if (this.state.role === "streammer") {
+            const newRoledUser = {
+                user_id: userID,
+                lives: []
+            }
+        } else {
+            const newRoledUser = {
+                user_id: userID,
+                favourite_lives: [],
+                favourite_streammers: [],
+                bets: []
+            }
+        }
+
+        const newUser = {
+            _id: userID,
+            firstName: this.state.fname,
+            lastName: this.state.lname,
+            email: this.state.email,
+            password: this.state.password,
+            role: this.state.role,
+            dateOfBirth: this.state.dob
+        }
     }
 
     handleRoleChange(value) {
@@ -81,6 +114,16 @@ class RegisterPage extends Component {
                         value={this.state.lname}
                         onChange={this.handleChange('passconf')}
                     /> <br/>
+                    <TextField
+                        id="date"
+                        label="Birthday"
+                        type="date"
+                        defaultValue="2017-05-24"
+                        onChange={this.handleDateChange('dob')}
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                    />
                     <RadioGroup name="role" selectedValue={this.state.role} onChange={this.handleRoleChange} horizontal>
                         <RadioButton value="streammer"> Streammer </RadioButton>
                         <RadioButton value="viewer"> Viewer </RadioButton>
