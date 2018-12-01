@@ -27,6 +27,10 @@ class RegisterPage extends Component {
         }
     }
 
+    historyPush() {
+        history.push('/Login');
+    }
+
     handleDateChange = name => event => {
         const newDate = new Date(event.target.value);
         this.setState({
@@ -131,9 +135,9 @@ class RegisterPage extends Component {
 
                     <Router history={history}>
                         <div>
-                            <Button label="Register" primary={true} onClick={this.handleRegister}> Register </Button>
+                            <Button variant="contained" color="primary" onClick={this.handleRegister}> Register </Button>
                             <br/>
-                            <Button label="Cancel" primary={true}><Link to="/Login"> Cancel </Link></Button>
+                            <Button variant="contained" color="primary" onClick={this.historyPush}> Cancel </Button>
                         </div>
                     </Router>
                 </div>

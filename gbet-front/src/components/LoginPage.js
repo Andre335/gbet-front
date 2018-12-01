@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import '../css/AuthCss.css';
 import TextField from '@material-ui/core/TextField';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import AppBar from '@material-ui/core/AppBar';
@@ -16,6 +17,10 @@ class LoginPage extends Component {
             user: "",
             pass: ""
         }
+    }
+
+    historyPush() {
+        history.push('/Register');
     }
 
     handleLogin() {
@@ -60,9 +65,9 @@ class LoginPage extends Component {
                                     onChange={this.handleChange('pass')}
                                 />
                                 <br/>
-                                <Button label="Submit" primary={true} onClick={this.handleLogin}> Submit </Button>
+                                <Button variant="contained" color="primary" onClick={this.handleLogin}> Submit </Button>
                                 <br/>
-                                <Button label="Register" primary={true}><Link to="/Register"> Register </Link></Button>
+                                <Button variant="contained" color="primary" onClick={this.historyPush}> Register </Button>
                             </div>
                         </MuiThemeProvider>
                     </Router>
