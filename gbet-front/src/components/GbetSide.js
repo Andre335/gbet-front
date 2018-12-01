@@ -125,7 +125,7 @@ class GbetSide extends Component {
                 [classes.hide]: this.state.open,
               })}
             >
-              <MenuIcon />
+            <MenuIcon />
             </IconButton>
             <Typography variant="h6" color="inherit" noWrap>
               GBet
@@ -156,7 +156,7 @@ class GbetSide extends Component {
             <List>
               {['Lives', 'Calendar', 'Complaints'].map((text, index) => (
                 <ListItem button key={text}>
-                  <ListItemIcon>{[text==='Lives' ? <Link to="/"><AirplayIcon/></Link>: "", 
+                  <ListItemIcon>{[text==='Lives' ? <Link to="/Lives"><AirplayIcon/></Link>: "", 
                                   text==='Calendar' ? <Link to="/calender"><CalendarIcon/></Link>: "", 
                                   text==='Complaints' ? <Link to="/complaints"><ComplaintsIcon/></Link>: ""]}</ListItemIcon>
                   <ListItemText primary={text} />
@@ -168,7 +168,9 @@ class GbetSide extends Component {
         <main className={classes.content}>
           <div className={classes.toolbar} />
             <Router history={history}>
-              <Route exact path="/" component={LiveList}/>
+              <div>
+                <Route path="/Lives" component={LiveList}/>
+              </div>
             </Router>
         </main>
       </div>
