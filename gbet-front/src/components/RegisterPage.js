@@ -134,7 +134,7 @@ class RegisterPage extends Component {
         return(
             <div>
                 <div>
-                    <AppBar title="Login" position='static'>
+                    <AppBar position='static'>
                         <Toolbar>
                             <Typography variant="h6" color="inherit">
                                 GBet
@@ -229,10 +229,9 @@ class RegisterPage extends Component {
                         </RadioGroup> <br/>
 
                         <Router history={history}>
-                            <div>
-                                <Button type="submit" variant="contained" color="primary"> Register </Button>
-                                <br/>
-                                <Button variant="contained" color="primary" onClick={this.historyPush}> Cancel </Button>
+                            <div class="registerbuts">
+                                <div class="registerbut"><Button type="submit" variant="contained" color="primary"> Register </Button></div>
+                                <div calss="cancelbut"><Button variant="contained" color="primary" onClick={this.historyPush}> Cancel </Button></div>
                             </div>
                         </Router>
                     </ValidatorForm>

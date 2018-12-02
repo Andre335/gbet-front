@@ -22,70 +22,7 @@ import ComplaintsIcon from '@material-ui/icons/Report';
 import LiveList from './LiveList';
 import history from '../util/history';
 import { Router, Route, Link } from 'react-router-dom';
-
-const drawerWidth = 240;
-
-const styles = theme => ({
-  root: {
-    display: 'flex',
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginLeft: 12,
-    marginRight: 36,
-  },
-  hide: {
-    display: 'none',
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-  },
-  drawerOpen: {
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawerClose: {
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    overflowX: 'hidden',
-    width: theme.spacing.unit * 7 + 1,
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing.unit * 9 + 1,
-    },
-  },
-  toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar,
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing.unit * 3,
-  },
-});
+import styles from '../css/styles.js';
 
 class GbetSide extends Component {
 
@@ -152,24 +89,22 @@ class GbetSide extends Component {
             </IconButton>
           </div>
           <Divider />
-          <Router history={history}>
             <List>
               {['Lives', 'Calendar', 'Complaints'].map((text, index) => (
                 <ListItem button key={text}>
-                  <ListItemIcon>{[text==='Lives' ? <Link to="/Lives"><AirplayIcon/></Link>: "", 
+                  <ListItemIcon>{[text==='Lives' ? <Link to="/Home"><AirplayIcon/></Link>: "", 
                                   text==='Calendar' ? <Link to="/calender"><CalendarIcon/></Link>: "", 
                                   text==='Complaints' ? <Link to="/complaints"><ComplaintsIcon/></Link>: ""]}</ListItemIcon>
                   <ListItemText primary={text} />
                 </ListItem>
               ))}
             </List>
-          </Router>
         </Drawer>
         <main className={classes.content}>
           <div className={classes.toolbar} />
             <Router history={history}>
               <div>
-                <Route path="/Lives" component={LiveList}/>
+                <Route path="/Home" component={LiveList}/>
               </div>
             </Router>
         </main>

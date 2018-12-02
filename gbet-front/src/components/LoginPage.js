@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import '../css/AuthCss.css';
-import TextField from '@material-ui/core/TextField';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -8,6 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { Router } from 'react-router-dom';
 import history from '../util/history.js';
+import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
+import axios from 'axios';
 
 class LoginPage extends Component {
     constructor() {
@@ -24,8 +25,19 @@ class LoginPage extends Component {
     }
 
     handleLogin() {
-        console.log(this.state.user);
-        console.log(this.state.pass);
+        const user = {
+            email: this.state.user,
+            password: this.state.pass
+        }
+
+        axios.post('http://localhost:3001/auth/login', user).then(res => {
+            if (res.data.error) {
+                alert(res.data.error);
+            } else {
+                alert("Logged in!");
+                history.push("/Home");
+            }
+        });
     }
 
     handleChange = name => event => {
@@ -38,7 +50,7 @@ class LoginPage extends Component {
         return(
             <div>
                 <div>
-                    <AppBar title="Login" position='static'>
+                    <AppBar position='static'>
                         <Toolbar>
                             <Typography variant="h6" color="inherit">
                                 GBet
@@ -50,24 +62,37 @@ class LoginPage extends Component {
                     <Router history={history}>
                         <MuiThemeProvider>
                             <div>
-                                <TextField
-                                    label="Username"
-                                    floatingLabelText="Username"
-                                    value={this.state.user}
-                                    onChange={this.handleChange('user')}
-                                />
-                                <br/>
-                                <TextField
-                                    type="password"
-                                    label="Password"
-                                    floatingLabelText="Password"
-                                    value={this.state.pass}
-                                    onChange={this.handleChange('pass')}
-                                />
-                                <br/>
-                                <Button variant="contained" color="primary" onClick={this.handleLogin}> Submit </Button>
-                                <br/>
-                                <Button variant="contained" color="primary" onClick={this.historyPush}> Register </Button>
+                                <ValidatorForm
+                                    ref="form"
+                                    onSubmit={this.handleLogin}
+                                    onError={errors => console.log(errors)}
+                                >
+                                    <TextValidator
+                                        label="Email"
+                                        floatingLabelText="Email"
+                                        value={this.state.user}
+                                        onChange={this.handleChange('user')}
+                                        validators={['required']}
+                                        name="email"
+                                        errorMessages={['Email required']}
+                                    />
+                                    <br/>
+                                    <TextValidator
+                                        type="password"
+                                        label="Password"
+                                        floatingLabelText="Password"
+                                        value={this.state.pass}
+                                        onChange={this.handleChange('pass')}
+                                        validators={['required']}
+                                        name="pass"
+                                        errorMessages={['Password required']}
+                                    />
+                                    <br/>
+                                    <div class="loginbuts">
+                                        <div class="loginbut"><Button type="submit" variant="contained" color="primary"> Login </Button></div>
+                                        <div class="regbut"><Button variant="contained" color="primary" onClick={this.historyPush}> Register </Button></div>
+                                    </div>
+                                </ValidatorForm>
                             </div>
                         </MuiThemeProvider>
                     </Router>
