@@ -17,20 +17,29 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import AirplayIcon from '@material-ui/icons/Airplay';
+import LogoutIcon from '@material-ui/icons/SubdirectoryArrowLeft';
 import CalendarIcon from '@material-ui/icons/CalendarToday';
 import ComplaintsIcon from '@material-ui/icons/Report';
 import LiveList from './LiveList';
 import history from '../util/history';
 import { Router, Route, Link } from 'react-router-dom';
 import styles from '../css/styles.js';
+import axios from 'axios';
+import LoginPage from './LoginPage';
 
 class GbetSide extends Component {
 
   constructor() {
       super();
+      this.handleLogout = this.handleLogout.bind(this);
       this.state = {
         open: false,
       };
+  }
+
+  handleLogout() {
+      alert("LOGGEDOUT!");
+      history.push("/Login");
   }
 
   handleDrawerOpen = () => {
@@ -99,12 +108,21 @@ class GbetSide extends Component {
                 </ListItem>
               ))}
             </List>
+            <Divider/>
+            <List>
+              {['Logout'].map((text, index) => (
+                <ListItem button key={text}>
+                    <ListItemIcon>{[text==='Logout' ? <LogoutIcon onClick={this.handleLogout}/> : ""]}</ListItemIcon>
+                </ListItem>
+              ))}
+            </List>
         </Drawer>
         <main className={classes.content}>
           <div className={classes.toolbar} />
             <Router history={history}>
               <div>
                 <Route path="/Home" component={LiveList}/>
+                <Route path="/Login" component={LoginPage}/>
               </div>
             </Router>
         </main>
