@@ -3,10 +3,11 @@ import LiveItem from './LiveItem';
 import '../css/LiveList.css';
 import List from '@material-ui/core/List';
 import axios from 'axios';
+import history from '../util/history';
 
 class LiveList extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.handleFavourite = this.handleFavourite.bind(this);
         this.handleBet = this.handleBet.bind(this);
         this.state = {
@@ -49,6 +50,7 @@ class LiveList extends Component {
     }
 
     componentDidMount() {
+        if (!this.props.user) history.push('/Login');
         axios.get('http://localhost:3001/live').then(res => {
             this.setState({ lives: res.data });
         });

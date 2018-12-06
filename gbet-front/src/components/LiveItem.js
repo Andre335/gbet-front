@@ -19,6 +19,7 @@ class LiveItem extends Component {
         this.getBetsInFavor = this.getBetsInFavor.bind(this);
         this.handleClickOpen = this.handleClickOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
+        this.handleBet = this.handleBet.bind(this);
         this.state = {
             bets_in_favor: this.getBetsInFavor(this.props.live.bets)
         };
@@ -33,6 +34,11 @@ class LiveItem extends Component {
         }
         return count;      
     } 
+
+    handleBet(infavor, value, live_id) {
+        if (infavor) this.setState({ bets_in_favor: this.state.bets_in_favor+1 });
+        this.props.handleBet(infavor, value, live_id);
+    }
 
     handleClickOpen = () => {
         this.setState({ dialogOpen: true });
@@ -74,7 +80,7 @@ class LiveItem extends Component {
                         </Button>
                         
                         {this.state.dialogOpen ? <BetDialog handleClose={this.handleClose} live_id={this.props.live._id}
-                                                            handleBet={this.props.handleBet}/> : ""}
+                                                            handleBet={this.handleBet}/> : ""}
 
                         <Button size="small" color="primary" onClick={this.handleFavourite}>
                             {this.props.isFavorite ? <StarIcon /> : <StarBorderIcon />}

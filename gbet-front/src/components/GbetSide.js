@@ -24,13 +24,12 @@ import LiveList from './LiveList';
 import history from '../util/history';
 import { Router, Route, Link } from 'react-router-dom';
 import styles from '../css/styles.js';
-import axios from 'axios';
 import LoginPage from './LoginPage';
 
 class GbetSide extends Component {
 
-  constructor() {
-      super();
+  constructor(props) {
+      super(props);
       this.handleLogout = this.handleLogout.bind(this);
       this.state = {
         open: false,
@@ -38,7 +37,7 @@ class GbetSide extends Component {
   }
 
   handleLogout() {
-      alert("LOGGEDOUT!");
+      alert("Logged Out!");
       history.push("/Login");
   }
 
@@ -121,7 +120,7 @@ class GbetSide extends Component {
           <div className={classes.toolbar} />
             <Router history={history}>
               <div>
-                <Route path="/Home" component={LiveList}/>
+                <Route path="/Home" render={(props) => <LiveList {...props} user={this.props.user}/>}/>
                 <Route path="/Login" component={LoginPage}/>
               </div>
             </Router>

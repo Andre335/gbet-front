@@ -11,8 +11,8 @@ import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 import axios from 'axios';
 
 class LoginPage extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.handleLogin = this.handleLogin.bind(this);
         this.state = {
             user: "",
@@ -35,6 +35,7 @@ class LoginPage extends Component {
                 alert(res.data.error);
             } else {
                 alert("Logged in!");
+                this.props.logUser(res.data);
                 history.push("/Home");
             }
         });
@@ -69,7 +70,6 @@ class LoginPage extends Component {
                                 >
                                     <TextValidator
                                         label="Email"
-                                        floatingLabelText="Email"
                                         value={this.state.user}
                                         onChange={this.handleChange('user')}
                                         validators={['required']}
@@ -80,7 +80,6 @@ class LoginPage extends Component {
                                     <TextValidator
                                         type="password"
                                         label="Password"
-                                        floatingLabelText="Password"
                                         value={this.state.pass}
                                         onChange={this.handleChange('pass')}
                                         validators={['required']}
@@ -88,9 +87,9 @@ class LoginPage extends Component {
                                         errorMessages={['Password required']}
                                     />
                                     <br/>
-                                    <div class="loginbuts">
-                                        <div class="loginbut"><Button type="submit" variant="contained" color="primary"> Login </Button></div>
-                                        <div class="regbut"><Button variant="contained" color="primary" onClick={this.historyPush}> Register </Button></div>
+                                    <div className="loginbuts">
+                                        <div className="loginbut"><Button type="submit" variant="contained" color="primary"> Login </Button></div>
+                                        <div className="regbut"><Button variant="contained" color="primary" onClick={this.historyPush}> Register </Button></div>
                                     </div>
                                 </ValidatorForm>
                             </div>
