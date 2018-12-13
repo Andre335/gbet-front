@@ -17,83 +17,28 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import AirplayIcon from '@material-ui/icons/Airplay';
+import LogoutIcon from '@material-ui/icons/SubdirectoryArrowLeft';
 import CalendarIcon from '@material-ui/icons/CalendarToday';
-import ComplaintsIcon from '@material-ui/icons/Report';
 import LiveList from './LiveList';
 import history from '../util/history';
 import { Router, Route, Link } from 'react-router-dom';
-
-const drawerWidth = 240;
-
-const styles = theme => ({
-  root: {
-    display: 'flex',
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginLeft: 12,
-    marginRight: 36,
-  },
-  hide: {
-    display: 'none',
-  },
-  drawer: {
-    width: drawerWidth,
-    flexShrink: 0,
-    whiteSpace: 'nowrap',
-  },
-  drawerOpen: {
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawerClose: {
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    overflowX: 'hidden',
-    width: theme.spacing.unit * 7 + 1,
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing.unit * 9 + 1,
-    },
-  },
-  toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar,
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing.unit * 3,
-  },
-});
+import styles from '../css/styles.js';
+import LoginPage from './LoginPage';
+import CalendarList from './CalendarList';
 
 class GbetSide extends Component {
 
-  constructor() {
-      super();
+  constructor(props) {
+      super(props);
+      this.handleLogout = this.handleLogout.bind(this);
       this.state = {
         open: false,
       };
+  }
+
+  handleLogout() {
+      alert("Logged Out!");
+      history.push("/Login");
   }
 
   handleDrawerOpen = () => {
@@ -125,7 +70,7 @@ class GbetSide extends Component {
                 [classes.hide]: this.state.open,
               })}
             >
-              <MenuIcon />
+            <MenuIcon />
             </IconButton>
             <Typography variant="h6" color="inherit" noWrap>
               GBet
@@ -152,23 +97,32 @@ class GbetSide extends Component {
             </IconButton>
           </div>
           <Divider />
-          <Router history={history}>
             <List>
-              {['Lives', 'Calendar', 'Complaints'].map((text, index) => (
+              {['Lives', 'Calendar'].map((text, index) => (
                 <ListItem button key={text}>
-                  <ListItemIcon>{[text==='Lives' ? <Link to="/"><AirplayIcon/></Link>: "", 
-                                  text==='Calendar' ? <Link to="/calender"><CalendarIcon/></Link>: "", 
-                                  text==='Complaints' ? <Link to="/complaints"><ComplaintsIcon/></Link>: ""]}</ListItemIcon>
+                  <ListItemIcon>{[text==='Lives' ? <Link to="/Home"><AirplayIcon/></Link>: "", 
+                                  text==='Calendar' ? <Link to="/Calendar"><CalendarIcon/></Link>: ""]}</ListItemIcon>
                   <ListItemText primary={text} />
                 </ListItem>
               ))}
             </List>
-          </Router>
+            <Divider/>
+            <List>
+              {['Logout'].map((text, index) => (
+                <ListItem button key={text}>
+                    <ListItemIcon>{[text==='Logout' ? <LogoutIcon onClick={this.handleLogout}/> : ""]}</ListItemIcon>
+                </ListItem>
+              ))}
+            </List>
         </Drawer>
         <main className={classes.content}>
           <div className={classes.toolbar} />
             <Router history={history}>
-              <Route exact path="/" component={LiveList}/>
+              <div>
+                <Route path="/Home" render={(props) => <LiveList {...props} user={this.props.user}/>}/>
+                <Route path="/Calendar" component={CalendarList}/>
+                <Route path="/Login" component={LoginPage}/>
+              </div>
             </Router>
         </main>
       </div>

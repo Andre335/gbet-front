@@ -1,0 +1,29 @@
+.loginbut {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.registerbut {
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.fnamecont {
+    display: inline-block;
+    margin-right: 16px;
+}
+
+.lnamecont {
+    display: inline-block;
+    margin-right: 16px;
+}
+
+.pass {
+    display: inline-block;
+    margin-right: 16px;
+}
+
+.passcon {
+    display: inline-block;
+    margin-right: 16px;
+}

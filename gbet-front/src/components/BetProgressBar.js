@@ -3,8 +3,8 @@ import {Line} from 'rc-progress';
 import '../css/ProgressBar.css';
 
 class BetProgressBar extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.handleColor = this.handleColor.bind(this);
     }
 
