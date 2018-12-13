@@ -19,12 +19,12 @@ import ListItemText from '@material-ui/core/ListItemText';
 import AirplayIcon from '@material-ui/icons/Airplay';
 import LogoutIcon from '@material-ui/icons/SubdirectoryArrowLeft';
 import CalendarIcon from '@material-ui/icons/CalendarToday';
-import ComplaintsIcon from '@material-ui/icons/Report';
 import LiveList from './LiveList';
 import history from '../util/history';
 import { Router, Route, Link } from 'react-router-dom';
 import styles from '../css/styles.js';
 import LoginPage from './LoginPage';
+import CalendarList from './CalendarList';
 
 class GbetSide extends Component {
 
@@ -98,11 +98,10 @@ class GbetSide extends Component {
           </div>
           <Divider />
             <List>
-              {['Lives', 'Calendar', 'Complaints'].map((text, index) => (
+              {['Lives', 'Calendar'].map((text, index) => (
                 <ListItem button key={text}>
                   <ListItemIcon>{[text==='Lives' ? <Link to="/Home"><AirplayIcon/></Link>: "", 
-                                  text==='Calendar' ? <Link to="/calender"><CalendarIcon/></Link>: "", 
-                                  text==='Complaints' ? <Link to="/complaints"><ComplaintsIcon/></Link>: ""]}</ListItemIcon>
+                                  text==='Calendar' ? <Link to="/Calendar"><CalendarIcon/></Link>: ""]}</ListItemIcon>
                   <ListItemText primary={text} />
                 </ListItem>
               ))}
@@ -121,6 +120,7 @@ class GbetSide extends Component {
             <Router history={history}>
               <div>
                 <Route path="/Home" render={(props) => <LiveList {...props} user={this.props.user}/>}/>
+                <Route path="/Calendar" component={CalendarList}/>
                 <Route path="/Login" component={LoginPage}/>
               </div>
             </Router>

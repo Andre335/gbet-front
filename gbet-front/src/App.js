@@ -6,6 +6,8 @@ import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RegisterPage';
 import { Router, Route } from 'react-router-dom';
 import history from './util/history.js';
+import {withCookies} from 'react-cookie';
+import CalendarList from './components/CalendarList';
 
 class App extends Component {
   constructor() {
@@ -34,6 +36,7 @@ class App extends Component {
             <Route path="/Login" render={(props) => <LoginPage {...props} logUser={this.logUser}/>}/>
             <Route path="/Register" component={RegisterPage}/>
             <Route path="/Home" render={(props) => <GbetSide {...props} user={this.state.user} logOut={this.logOut}/>}/>
+            <Route path="/Calendar" component={CalendarList}/>
           </div>
         </Router>
       </div>
@@ -41,4 +44,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withCookies(App);

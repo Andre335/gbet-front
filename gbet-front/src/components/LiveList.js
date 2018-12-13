@@ -50,7 +50,6 @@ class LiveList extends Component {
     }
 
     componentDidMount() {
-        if (!this.props.user) history.push('/Login');
         axios.get('http://localhost:3001/live').then(res => {
             this.setState({ lives: res.data });
         });
